@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
+import BrandLogo from "../../components/BrandLogo.jsx";
 
 export default function AdminLogin() {
   const { signIn, isAdmin, loading } = useAuth();
@@ -30,6 +31,7 @@ export default function AdminLogin() {
   return (
     <div className="admin-login-wrap">
       <div className="admin-login-card">
+        <div className="login-brand"><BrandLogo /></div>
         <h1>Admin login</h1>
         <p className="sub">Sign in to manage Design & Solution's content.</p>
 

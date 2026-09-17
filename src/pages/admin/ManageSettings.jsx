@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
-import { supabase, publicImageUrl } from "../../supabaseClient.js";
-import { uploadImage, deleteImage } from "../../hooks/imageUpload.js";
+import { supabase } from "../../supabaseClient.js";
 
 export default function ManageSettings() {
   const { settings, refresh } = useSiteData();
   const [form, setForm] = useState(settings);
-  const [logoFile, setLogoFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -27,13 +25,6 @@ export default function ManageSettings() {
     setMessage("");
 
     try {
-      let logo_path = form.logo_path;
-
-      if (logoFile) {
-        if (form.logo_path) await deleteImage(form.logo_path);
-        logo_path = await uploadImage(logoFile, "logo");
-      }
-
       const { error: updateError } = await supabase
         .from("site_settings")
         .update({
@@ -43,14 +34,12 @@ export default function ManageSettings() {
           phone: form.phone,
           whatsapp: form.whatsapp,
           email: form.email,
-          discord_invite: form.discord_invite,
-          logo_path
+          discord_invite: form.discord_invite
         })
         .eq("id", 1);
 
       if (updateError) throw updateError;
 
-      setLogoFile(null);
       setMessage("Settings saved.");
       await refresh();
     } catch (err) {
@@ -74,13 +63,7 @@ export default function ManageSettings() {
         <div className="admin-panel">
           <h2>Branding</h2>
 
-          {form.logo_path && (
-            <img className="image-preview" src={publicImageUrl(form.logo_path)} alt="Logo" />
-          )}
-          <div className="field">
-            <label>Logo image (optional)</label>
-            <input type="file" accept="image/*" onChange={(e) => setLogoFile(e.target.files[0])} />
-          </div>
+          <div className="settings-notice">Logo, colors, navigation, search, and motion are managed in the <a href="/admin/customize">Website Customizer</a>.</div>
 
           <div className="field">
             <label htmlFor="site_title">Site title</label>

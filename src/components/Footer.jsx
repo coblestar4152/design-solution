@@ -1,13 +1,15 @@
 import React from "react";
 import { useSiteData } from "../context/SiteDataContext.jsx";
+import BrandLogo from "./BrandLogo.jsx";
 
 export default function Footer() {
-  const { settings } = useSiteData();
+  const { settings, customization } = useSiteData();
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className={`footer animate-${customization.animations.footer}`}>
       <div className="container footer-inner">
+        <BrandLogo />
         <span>
           © {year} {settings.site_title}. All rights reserved.
         </span>
