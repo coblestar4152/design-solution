@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 const NAV = [
   { to: "/admin", label: "Dashboard", end: true },
   { to: "/admin/settings", label: "Site Settings" },
+  { to: "/admin/customize", label: "Website Customizer" },
   { to: "/admin/categories", label: "Categories" },
   { to: "/admin/services", label: "Services" },
   { to: "/admin/portfolio", label: "Portfolio" },

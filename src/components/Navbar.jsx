@@ -1,25 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSiteData } from "../context/SiteDataContext.jsx";
-
-const LINKS = [
-  { href: "#services", label: "Services" },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "#about", label: "About" },
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#contact", label: "Contact" }
-];
+import BrandLogo from "./BrandLogo.jsx";
 
 export default function Navbar() {
-  const { settings } = useSiteData();
+  const { customization } = useSiteData();
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const { header, animations } = customization;
+  const LINKS = header.navigation;
+  function search(e) { e.preventDefault(); if (query.trim()) navigate(`/search?q=${encodeURIComponent(query.trim())}`); }
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <a href="#top" className="brand">
-          <span className="brand-mark">D&S</span>
-          <span>{settings.site_title}</span>
-        </a>
+    <header className={`navbar animate-${animations.header}`} data-layout={header.layout}>
+      <div className="navbar-inner" style={{ justifyContent: header.alignment }}>
+        <a href="/#top" className="brand"><BrandLogo /><span className="brand-tagline">{header.tagline}</span></a>
 
         <ul className="nav-links">
           {LINKS.map((l) => (
@@ -30,9 +26,7 @@ export default function Navbar() {
         </ul>
 
         <div className="nav-actions">
-          <a href="#contact" className="btn btn-primary">
-            Get a quote
-          </a>
+          <form className="nav-search" onSubmit={search}><input aria-label="Search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={header.searchPlaceholder} /></form>
           <button
             className="nav-toggle"
             aria-label="Toggle menu"
@@ -44,15 +38,13 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className={`mobile-menu ${open ? "open" : ""}`}>
+      <div className={`mobile-menu ${open ? "open" : ""}`} data-mobile={header.mobileStyle}>
         {LINKS.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
             {l.label}
           </a>
         ))}
-        <a href="#contact" onClick={() => setOpen(false)}>
-          Get a quote
-        </a>
+        <form className="mobile-search" onSubmit={search}><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={header.searchPlaceholder} /></form>
       </div>
     </header>
   );

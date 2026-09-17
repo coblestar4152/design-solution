@@ -11,11 +11,14 @@ import ManagePortfolio from "./pages/admin/ManagePortfolio.jsx";
 import ManageTestimonials from "./pages/admin/ManageTestimonials.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import CustomizeSite from "./pages/admin/CustomizeSite.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/search" element={<SearchPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
         path="/admin"
@@ -27,6 +30,7 @@ export default function App() {
       >
         <Route index element={<DashboardHome />} />
         <Route path="settings" element={<ManageSettings />} />
+        <Route path="customize" element={<CustomizeSite />} />
         <Route path="categories" element={<ManageCategories />} />
         <Route path="services" element={<ManageServices />} />
         <Route path="portfolio" element={<ManagePortfolio />} />

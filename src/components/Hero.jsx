@@ -2,10 +2,10 @@ import React from "react";
 import { useSiteData } from "../context/SiteDataContext.jsx";
 
 export default function Hero() {
-  const { settings } = useSiteData();
+  const { settings, customization } = useSiteData();
 
   return (
-    <section className="hero" id="top">
+    <section className={`hero animate-${customization.animations.hero}`} id="top">
       <div className="hero-glow" />
       <div className="container hero-grid">
         <div>
